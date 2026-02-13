@@ -845,10 +845,10 @@
         </div>
 
         <div class="chips" id="gamesChips"></div>
-        <div class="gameGrid" id="gameGrid"></div>
+        <div class="gameGrid" id="gamesGameGrid"></div>
 
         <div class="actions">
-          <button id="toLeadBtn">Get a quick demo</button>
+          <button id="gamesToLeadBtn">Get a quick demo</button>
           <button class="secondary" id="gamesBackBtn">Back</button>
         </div>
 
@@ -948,6 +948,37 @@
     </button>
   </div>
 </div>
+
+  <!-- Live Scoreboard Overlay -->
+<div id="scoreOverlay" class="overlay hidden" role="dialog" aria-modal="true" aria-label="Live conference results">
+  <div class="modal">
+    <div class="modalTop">
+      <div>
+        <h2 class="title" style="margin-top:0;">Live conference results</h2>
+        <p class="subtext" id="scoreMeta">Loading…</p>
+      </div>
+      <button class="closeBtn" id="closeScoreBtn" aria-label="Close">✕</button>
+    </div>
+
+    <div id="scoreList" style="margin-top:14px;"></div>
+
+    <div class="actions actionsStacked" style="margin-top:18px;">
+      <a
+        id="scoreBookCall"
+        href="https://calendly.com/tim-lafrankie-gratiahealth/gratia-alignment-session"
+        target="_blank"
+        rel="noopener"
+        class="btn primary"
+        style="width:100%;"
+      >
+        Book a strategy call
+      </a>
+      <button class="secondary subtleBack" id="refreshScoreBtn" type="button">Refresh</button>
+    </div>
+  </div>
+</div>
+
+<canvas id="confettiCanvas"></canvas>
 
 <script>
 // Intro screen controls
@@ -1729,34 +1760,5 @@ document.addEventListener("click", function(e){
   renderChoices();
   renderPicked();
 </script>
-  <canvas id="confettiCanvas"></canvas>
-<!-- Live Scoreboard Overlay -->
-<div id="scoreOverlay" class="overlay hidden" role="dialog" aria-modal="true" aria-label="Live conference results">
-  <div class="modal">
-    <div class="modalTop">
-      <div>
-        <h2 class="title" style="margin-top:0;">Live conference results</h2>
-        <p class="subtext" id="scoreMeta">Loading…</p>
-      </div>
-      <button class="closeBtn" id="closeScoreBtn" aria-label="Close">✕</button>
-    </div>
-
-    <div id="scoreList" style="margin-top:14px;"></div>
-
-    <div class="actions actionsStacked" style="margin-top:18px;">
-      <a
-        id="scoreBookCall"
-        href="https://calendly.com/tim-lafrankie-gratiahealth/gratia-alignment-session"
-        target="_blank"
-        rel="noopener"
-        class="btn primary"
-        style="width:100%;"
-      >
-        Book a strategy call
-      </a>
-      <button class="secondary subtleBack" id="refreshScoreBtn" type="button">Refresh</button>
-    </div>
-  </div>
-</div>
 </body>
 </html>
