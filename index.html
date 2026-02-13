@@ -892,32 +892,31 @@
     </a>
   </div>
 
-  <div style="margin-top:18px; font-weight:950; color: var(--navy);">
-    Invite a colleague to explore visibility in action
-  </div>
-
-  <div class="actions" style="margin-top:12px;">
+ <div class="actions" style="margin-top:12px;">
   <button type="button" class="conferenceBtn" id="openScoreBtn">
     See live conference results
   </button>
 </div>
 
-  <div style="margin-top:12px; display:flex; gap:14px; align-items:center; flex-wrap:wrap;">
-    <img id="shareQr"
-         alt="QR code"
-         style="width:120px; height:120px; border-radius:14px; border:2px solid rgba(11,31,77,.18); background:#fff; padding:10px;" />
-    <div style="display:flex; gap:10px; flex-wrap:wrap;">
-      <button type="button" class="secondary" id="copyLinkBtn">Copy link</button>
-    </div>
-  </div>
-
-  <div class="actions" style="margin-top:18px;">
-    <button type="button" class="secondary" id="startOverBtn">Start over</button>
-  </div>
-
+<div style="margin-top:22px; font-weight:950; color: var(--navy); text-align:center;">
+  Invite a colleague to explore visibility in action
 </div>
-    </div>
+
+<div class="shareRow">
+  <img id="shareQr"
+       alt="QR code"
+       class="qrImage" />
+
+  <div class="shareButtons">
+    <button type="button" class="secondary shareBtn" id="copyLinkBtn">
+      Copy link
+    </button>
+
+    <button type="button" class="secondary shareBtn" id="startOverBtn">
+      Start over
+    </button>
   </div>
+</div>
 
 <script>
   // Intro screen controls
