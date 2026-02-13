@@ -949,44 +949,32 @@
   </div>
 </div>
 
-<script>
-  // Intro screen controls
-  const introScreen = document.getElementById("introScreen");
-  const startBtn = document.getElementById("startBtn");
-  const gameContainer = document.getElementById("gameContainer");
-  const leadFormState = document.getElementById("leadFormState");
-  const thankYouState = document.getElementById("thankYouState");
-  const shareQr = document.getElementById("shareQr");
-  const copyLinkBtn = document.getElementById("copyLinkBtn");
-  const startOverBtn = document.getElementById("startOverBtn");
+// Intro screen controls
+const introScreen = document.getElementById("introScreen");
+const startBtn = document.getElementById("startBtn");
+const gameContainer = document.getElementById("gameContainer");
+const leadFormState = document.getElementById("leadFormState");
+const thankYouState = document.getElementById("thankYouState");
+const shareQr = document.getElementById("shareQr");
+const copyLinkBtn = document.getElementById("copyLinkBtn");
+const startOverBtn = document.getElementById("startOverBtn");
 
-  // ---- START BUTTON (single source of truth) ----
-function startGame(){
-  introScreen.classList.add("hidden");
-  gameContainer.classList.remove("hidden");
+
+// ---- START BUTTON (single source of truth) ----
+function startGame(e){
+  if (e) { try{ e.preventDefault(); }catch(_){} }
+  if (introScreen) introScreen.classList.add("hidden");
+  if (gameContainer) gameContainer.classList.remove("hidden");
   window.scrollTo(0,0);
 }
 
+window.startGame = startGame;
+
 if (startBtn){
-  startBtn.onclick = null; // clears any inline onclick
-  startBtn.addEventListener("click", (e)=>{
-    e.preventDefault();
-    startGame();
-  });
+  startBtn.type = "button";
+  startBtn.addEventListener("click", startGame, { passive:false });
+  startBtn.addEventListener("touchend", startGame, { passive:false });
 }
-
-
-  // Failsafe: allow inline onclick to work even if listeners don't bind
-  function startGame(){
-    try{
-      introScreen.classList.add("hidden");
-      gameContainer.classList.remove("hidden");
-      console.log("[Visibility Challenge] Game started");
-    }catch(e){
-      console.error("[Visibility Challenge] startGame failed:", e);
-      alert("Start failed. Open console for details.");
-    }
-  }
 
   const MAX = 3;
   const behavior = "replaceOldest"; // "block" or "replaceOldest"
