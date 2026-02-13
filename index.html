@@ -1054,6 +1054,7 @@ const scoreMeta = document.getElementById("scoreMeta");
 const scoreList = document.getElementById("scoreList");
 const closeScoreBtn = document.getElementById("closeScoreBtn");
 const refreshScoreBtn = document.getElementById("refreshScoreBtn"); 
+const openScoreBtn = document.getElementById("openScoreBtn");
   
   // Games overlay (used in a few handlers)
   const gamesOverlay = document.getElementById("gamesOverlay");
@@ -1425,6 +1426,14 @@ storyBackBtn.addEventListener("click", ()=>{
   toLeadBtn.addEventListener("click", showLead);
 
   closeLeadBtn.addEventListener("click", closeLead);
+
+  // Scoreboard open button
+if (openScoreBtn){
+  openScoreBtn.addEventListener("click", ()=>{
+    scoreOverlay.classList.remove("hidden");
+    loadScoreboard();
+  });
+}
 
   // Click outside modals closes current overlay
   [resultsOverlay, gamesOverlay, leadOverlay].forEach(ov=>{
