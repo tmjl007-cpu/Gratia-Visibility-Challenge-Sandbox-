@@ -1360,11 +1360,8 @@ async function loadScoreboard(){
   // ✅ NOW paste this right here:
 
 if (closeScoreBtn){
-  closeScoreBtn.addEventListener("click", ()=>{
-    scoreOverlay.classList.add("hidden");
-  });
+  closeScoreBtn.addEventListener("click", ()=> scoreOverlay.classList.add("hidden"));
 }
-
 if (refreshScoreBtn){
   refreshScoreBtn.addEventListener("click", loadScoreboard);
 }
