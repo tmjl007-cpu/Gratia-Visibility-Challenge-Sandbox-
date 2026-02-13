@@ -1346,6 +1346,25 @@ storyBackBtn.addEventListener("click", ()=>{
       createdAt: new Date().toISOString(),
     };
 
+    // ---- Conference Mode POST to Google Apps Script ----
+const CONFERENCE_ENDPOINT = "https://script.google.com/macros/s/AKfycbxQfYi_Xp3PXd8Jw34YrHAhPVTunJf091kvs-F916MwRUhaLOrYLrKCvVcd5uuncUAP/exec";
+
+payload.sessionId = payload.sessionId || (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + "-" + Math.random().toString(16).slice(2));
+payload.device = navigator.userAgent;
+
+fetch(CONFERENCE_ENDPOINT, {
+  method: "POST",
+  headers: { "Content-Type": "text/plain;charset=utf-8" }, // best for Apps Script
+  body: JSON.stringify(payload),
+})
+.then(r => r.json())
+.then(res => {
+  console.log("Conference POST:", res);
+})
+.catch(err => {
+  console.warn("Conference POST failed:", err);
+});
+
       console.log("Lead payload (send this to HubSpot next):", payload);
 
       // Get elements
