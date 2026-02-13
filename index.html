@@ -1732,30 +1732,7 @@ if (startOverBtn){
     gameContainer.classList.add("hidden");
   });
 }
-  // ===== Start Over Fix =====
-document.addEventListener("click", function(e){
-  if (e.target && e.target.id === "startOverBtn"){
-    
-    // Reset selections
-    picked = [];
-    renderPicked();
 
-    // Hide overlays
-    leadOverlay.classList.add("hidden");
-    resultsOverlay.classList.add("hidden");
-
-    // Reset lead state
-    thankYouState.classList.add("hidden");
-    leadFormState.classList.remove("hidden");
-    leadForm.reset();
-
-    // Return to intro
-    introScreen.classList.remove("hidden");
-    gameContainer.classList.add("hidden");
-
-    window.scrollTo(0,0);
-  }
-});
   // init
   renderChoices();
   renderPicked();
