@@ -1107,6 +1107,10 @@ const scoreList = document.getElementById("scoreList");
 const closeScoreBtn = document.getElementById("closeScoreBtn");
 const refreshScoreBtn = document.getElementById("refreshScoreBtn"); 
 const openScoreBtn = document.getElementById("openScoreBtn");
+
+  // Conference Mode Endpoint (GLOBAL — only once)
+const CONFERENCE_ENDPOINT =
+  "https://script.google.com/macros/s/AKfycbxQfYi_Xp3PXd8Jw34YrHAhPVTunJf091kvs-F916MwRUhaLOrYLrKCvVcd5uuncUAP/exec";
   
   // Games overlay (used in a few handlers)
   const gamesOverlay = document.getElementById("gamesOverlay");
@@ -1534,7 +1538,6 @@ if (openScoreBtn){
     };
 
     // ---- Conference Mode POST to Google Apps Script ----
-const CONFERENCE_ENDPOINT = "https://script.google.com/macros/s/AKfycbxQfYi_Xp3PXd8Jw34YrHAhPVTunJf091kvs-F916MwRUhaLOrYLrKCvVcd5uuncUAP/exec";
 
 payload.sessionId = payload.sessionId || (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + "-" + Math.random().toString(16).slice(2));
 payload.device = navigator.userAgent;
