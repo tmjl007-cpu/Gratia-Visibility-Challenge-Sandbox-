@@ -978,8 +978,6 @@
   </div>
 </div>
 
-<canvas id="confettiCanvas"></canvas>
-
 <script>
 // Intro screen controls
 const introScreen = document.getElementById("introScreen");
@@ -1749,5 +1747,8 @@ if (startOverBtn){
   renderChoices();
   renderPicked();
 </script>
+  <!-- ✅ Confetti canvas must be OUTSIDE overlays / thankYouState -->
+<canvas id="confettiCanvas"></canvas>
+
 </body>
 </html>
