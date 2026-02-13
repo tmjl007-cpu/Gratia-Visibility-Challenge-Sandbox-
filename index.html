@@ -1481,7 +1481,9 @@ function closeStory(){
   });
 
   // Buttons
+  if (resetBtn){
   resetBtn.addEventListener("click", reset);
+}
   
   // Continue now opens Story first
 continueBtn.addEventListener("click", showStory);
@@ -1508,7 +1510,7 @@ if (openScoreBtn){
   openScoreBtn.addEventListener("click", ()=>{
     console.log("Scoreboard button clicked ✅");
     scoreOverlay.classList.remove("hidden");
-    loadScoreboard();
+    setTimeout(loadScoreboard, 50);
   });
 }
 
