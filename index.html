@@ -1486,23 +1486,27 @@ function closeStory(){
 continueBtn.addEventListener("click", showStory);
 
 // Story buttons
-closeStoryBtn.addEventListener("click", closeStory);
+if (closeStoryBtn) closeStoryBtn.addEventListener("click", closeStory);
 
-storyContinueBtn.addEventListener("click", () => {
-  closeStory();
-  showResults();
+if (storyContinueBtn) {
+  storyContinueBtn.addEventListener("click", () => {
+    closeStory();
+    showResults();
 
-  // Fire confetti after the DOM/overlays have repainted (Safari-safe)
-  requestAnimationFrame(() => {
+    // Fire confetti after the DOM/overlays have repainted (Safari-safe)
     requestAnimationFrame(() => {
-      burstConfetti();
+      requestAnimationFrame(() => {
+        burstConfetti();
+      });
     });
   });
-});
-});
-storyBackBtn.addEventListener("click", ()=>{ 
-  closeStory(); 
-});
+}
+
+if (storyBackBtn) {
+  storyBackBtn.addEventListener("click", () => {
+    closeStory();
+  });
+}
 
   closeResultsBtn.addEventListener("click", closeResults);
   backBtn.addEventListener("click", closeResults);
