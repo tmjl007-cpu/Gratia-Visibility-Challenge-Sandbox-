@@ -1311,10 +1311,7 @@ else if (n === 3){
     `;
   }).join("");
 
-    burstConfetti();
-    setTimeout(() => {
-   resultsOverlay.classList.remove("hidden");
-   }, 200);
+    resultsOverlay.classList.remove("hidden");
   }
 
   function closeResults(){ resultsOverlay.classList.add("hidden"); }
@@ -1491,8 +1488,13 @@ continueBtn.addEventListener("click", showStory);
 // Story buttons
 closeStoryBtn.addEventListener("click", closeStory);
 storyContinueBtn.addEventListener("click", ()=>{ 
-  closeStory(); 
-  showResults(); 
+  closeStory();
+
+  // Small delay so overlay closes visually first
+  setTimeout(()=>{
+    burstConfetti();
+    showResults();
+  }, 120);
 });
 storyBackBtn.addEventListener("click", ()=>{ 
   closeStory(); 
