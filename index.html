@@ -1314,23 +1314,29 @@ async function loadScoreboard(){
   scoreList.innerHTML = "";
 
   try{
-    const res = await fetch(CONFERENCE_ENDPOINT + "?action=stats", { method:"GET" });
+    const url = CONFERENCE_ENDPOINT + "?action=stats&t=" + Date.now();
+    const res = await fetch(url, { method:"GET", cache:"no-store" });
+
+    const raw = await res.text();          // <-- read as text first
+    console.log("[Scoreboard raw]", raw);  // <-- inspect in console
+
     if (!res.ok) throw new Error("HTTP " + res.status);
 
-    const json = await res.json();
+    let json;
+    try{
+      json = JSON.parse(raw);              // <-- parse manually
+    }catch(e){
+      throw new Error("Not JSON (likely login/HTML). Check Apps Script access.");
+    }
 
-    // Your Apps Script returns: { ok:true, summary:[{id,label,count}, ...] }
     const summary = Array.isArray(json.summary) ? json.summary : [];
     const total = summary.reduce((sum, row)=> sum + Number(row.count || 0), 0);
 
-    scoreMeta.textContent = total
-      ? `${total} responses today`
-      : "No responses yet";
+    scoreMeta.textContent = total ? `${total} responses today` : "No responses yet";
 
-    const rows = summary.map(row=>{
+    scoreList.innerHTML = summary.map(row=>{
       const c = Number(row.count || 0);
-      const pct = total ? Math.round((c/total) * 100) : 0;
-
+      const pct = total ? Math.round((c/total)*100) : 0;
       return `
         <div class="scoreRow">
           <div class="scoreTop">
@@ -1344,15 +1350,17 @@ async function loadScoreboard(){
       `;
     }).join("");
 
-    scoreList.innerHTML = rows;
-
   }catch(err){
     console.error("Scoreboard load failed:", err);
     scoreMeta.textContent = "Couldn’t load results.";
     scoreList.innerHTML = `
       <div class="box">
         <div class="boxtitle">Troubleshooting</div>
-        <p class="boxtext">Endpoint must return JSON with <b>summary</b> rows (id/label/count).</p>
+        <p class="boxtext">
+          ${String(err.message || err)}
+          <br><br>
+          Most common fix: Apps Script Web App must be deployed to <b>Anyone</b> access.
+        </p>
       </div>
     `;
   }
