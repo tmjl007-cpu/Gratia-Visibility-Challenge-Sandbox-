@@ -1284,28 +1284,27 @@ async function loadScoreboard(){
   scoreList.innerHTML = "";
 
   try{
-    // Your Apps Script should return JSON like:
-    // { total: 123, counts: { px: 40, quality: 60, ... } }
     const res = await fetch(CONFERENCE_ENDPOINT + "?action=stats", { method:"GET" });
     if (!res.ok) throw new Error("HTTP " + res.status);
 
     const json = await res.json();
-    const total = Number(json.total || 0);
-    const counts = json.counts || {};
+
+    // Your Apps Script returns: { ok:true, summary:[{id,label,count}, ...] }
+    const summary = Array.isArray(json.summary) ? json.summary : [];
+    const total = summary.reduce((sum, row)=> sum + Number(row.count || 0), 0);
 
     scoreMeta.textContent = total
       ? `${total} responses today`
       : "No responses yet";
 
-    // Build rows
-    const rows = priorityOrder.map(p=>{
-      const c = Number(counts[p.id] || 0);
-      const pct = total ? Math.round((c/total)*100) : 0;
+    const rows = summary.map(row=>{
+      const c = Number(row.count || 0);
+      const pct = total ? Math.round((c/total) * 100) : 0;
 
       return `
         <div class="scoreRow">
           <div class="scoreTop">
-            <span>${p.label}</span>
+            <span>${row.label || row.id}</span>
             <span>${pct}%</span>
           </div>
           <div class="scoreBarWrap">
@@ -1319,16 +1318,15 @@ async function loadScoreboard(){
 
   }catch(err){
     console.error("Scoreboard load failed:", err);
-    scoreMeta.textContent = "Couldn’t load results. Check endpoint + Apps Script.";
+    scoreMeta.textContent = "Couldn’t load results.";
     scoreList.innerHTML = `
       <div class="box">
         <div class="boxtitle">Troubleshooting</div>
-        <p class="boxtext">Make sure your Apps Script is deployed as a Web App and supports <b>?action=stats</b> returning JSON.</p>
+        <p class="boxtext">Endpoint must return JSON with <b>summary</b> rows (id/label/count).</p>
       </div>
     `;
   }
 }
-
   // ✅ NOW paste this right here:
 
 if (closeScoreBtn){
