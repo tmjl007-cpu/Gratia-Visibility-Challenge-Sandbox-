@@ -725,7 +725,10 @@
 </head>
 
 <body>
-
+  
+ <!-- ✅ Confetti canvas should be FIRST in body -->
+  <canvas id="confettiCanvas"></canvas>
+  
   <!-- Intro Screen -->
   <div id="introScreen" class="screen" role="dialog" aria-modal="true" aria-label="Intro">
     <div class="introCard">
@@ -1607,9 +1610,19 @@ fetch(CONFERENCE_ENDPOINT, {
       leadSuccess.textContent = "";
   });
 
-  function burstConfetti(){
+ function burstConfetti(){
   const canvas = document.getElementById("confettiCanvas");
+  if (!canvas) { console.warn("No confettiCanvas found"); return; }
+
   const ctx = canvas.getContext("2d");
+  if (!ctx) { console.warn("No 2D context"); return; }
+
+  // Force top layer (Safari stacking-context safety)
+  canvas.style.display = "block";
+  canvas.style.position = "fixed";
+  canvas.style.inset = "0";
+  canvas.style.pointerEvents = "none";
+  canvas.style.zIndex = "99999";
 
   // Resize to screen
   const dpr = Math.max(1, window.devicePixelRatio || 1);
@@ -1619,24 +1632,23 @@ fetch(CONFERENCE_ENDPOINT, {
   canvas.style.height = window.innerHeight + "px";
   ctx.setTransform(dpr,0,0,dpr,0,0);
 
-  const colors = ["#E6007E","#3C8DCC","#F5A623","#FFFFFF"]; // Gratia accents
+  const colors = ["#E6007E","#3C8DCC","#F5A623","#FFFFFF"];
   const pieces = [];
   const centerX = window.innerWidth / 2;
   const centerY = window.innerHeight * 0.45;
 
-  const count = 260;               // keep modest for iPhone
+  const count = 260;
   const gravity = 0.12;
   const drag = 0.992;
 
   for (let i=0;i<count;i++){
-    const angle = Math.random() * Math.PI * 2; // full 360°
+    const angle = Math.random() * Math.PI * 2;
     const speed = 6 + Math.random()*10;
     pieces.push({
       x: centerX,
       y: centerY,
       vx: Math.cos(angle)*speed + (Math.random()*2-1),
       vy: Math.sin(angle)*speed - (Math.random()*3),
-      r: 3 + Math.random()*4,
       w: 6 + Math.random()*8,
       h: 3 + Math.random()*6,
       rot: Math.random()*Math.PI,
@@ -1668,7 +1680,6 @@ fetch(CONFERENCE_ENDPOINT, {
       ctx.restore();
     }
 
-    // stop when most are done
     const alive = pieces.some(p => p.life < p.maxLife && p.y < window.innerHeight + 40);
     if (alive && frame < 120){
       requestAnimationFrame(tick);
@@ -1747,8 +1758,6 @@ if (startOverBtn){
   renderChoices();
   renderPicked();
 </script>
-  <!-- ✅ Confetti canvas must be OUTSIDE overlays / thankYouState -->
-<canvas id="confettiCanvas"></canvas>
 
 </body>
 </html>
