@@ -656,7 +656,7 @@
     position:fixed;
     inset:0;
     pointer-events:none;
-    z-index:3000;
+    z-index:9999;
   }
     .scoreRow{
   display:flex;
@@ -1487,14 +1487,18 @@ continueBtn.addEventListener("click", showStory);
 
 // Story buttons
 closeStoryBtn.addEventListener("click", closeStory);
-storyContinueBtn.addEventListener("click", ()=>{ 
-  closeStory();
 
-  // Small delay so overlay closes visually first
-  setTimeout(()=>{
-    burstConfetti();
-    showResults();
-  }, 120);
+storyContinueBtn.addEventListener("click", () => {
+  closeStory();
+  showResults();
+
+  // Fire confetti after the DOM/overlays have repainted (Safari-safe)
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      burstConfetti();
+    });
+  });
+});
 });
 storyBackBtn.addEventListener("click", ()=>{ 
   closeStory(); 
